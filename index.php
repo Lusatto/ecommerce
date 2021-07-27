@@ -2,30 +2,20 @@
 
 require_once("vendor/autoload.php");
 
-use \Slim\Slim;
-use \Hcode\Page;
-use \Hcode\PageAdmin;
-
-$app = new Slim();
+$app = new \Slim\Slim();
 
 $app->config('debug', true);
 
 $app->get('/', function() {
-    	
-    	$page = new Page();// chama o CONSTRUCT
+    
+	$sql = new Hcode\DB\Sql();
 
-    	$page->setTpl("index"); //chama o INDEX
+	$results = $sql->select("SELECT * FROM tb_users");
 
-});
-
-$app->get('/admin', function() {
-        
-        $page = new PageAdmin();// chama o CONSTRUCT
-
-        $page->setTpl("index"); //chama o INDEX
+	echo json_encode($results);
 
 });
 
-$app->run(); // faz rodar
+$app->run();
 
  ?>
