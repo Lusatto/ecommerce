@@ -5,18 +5,18 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'd8fc9389531a7b1210eab594e569988ae697d4d7',
-        'name' => 'hcodebr/ecommerce',
+        'reference' => 'c5499f7291a0a901b7e025916f018c12e8f525c8',
+        'name' => 'ludso/ecommerce',
         'dev' => true,
     ),
     'versions' => array(
-        'hcodebr/ecommerce' => array(
+        'ludso/ecommerce' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'd8fc9389531a7b1210eab594e569988ae697d4d7',
+            'reference' => 'c5499f7291a0a901b7e025916f018c12e8f525c8',
             'dev_requirement' => false,
         ),
         'phpmailer/phpmailer' => array(
