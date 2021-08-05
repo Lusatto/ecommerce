@@ -30,7 +30,7 @@ $app->get("/categories/:idcategory", function($idcategory){
 
     for ($i=1; $i <= $pagination['pages']; $i++) { 
 		array_push($pages,[
-			'link'=>'/categories/' .$category->getidcategory().'?page='.$i,
+			'link'=>'/categories/'.$category->getidcategory().'?page='.$i,
 			'page'=>$i 
 		]);
     }
@@ -44,5 +44,19 @@ $app->get("/categories/:idcategory", function($idcategory){
 	]);
 });
 
+
+$app->get("/products/:desurl", function($desurl){
+
+	$product = new Product();
+
+	$product->getFromURL($desurl);
+
+	$page = new Page();
+
+	$page->setTpl("product-detail", [
+		'product'=>$product->getValues(),
+		'categories'=>$product->getCategories()
+	]);
+});
 
 ?>
