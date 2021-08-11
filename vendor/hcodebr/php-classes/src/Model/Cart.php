@@ -112,20 +112,20 @@ class Cart extends Model {
 		$this->setData($results[0]);
 	}
 
-	public function addProduct(Product $product)
+    public function addProduct(Product $product)
 	{
 
 		$sql = new Sql();
 
-		$sql->query("INSERT INTO tb_cartsproducts (idcart, idproduct) VALUES (:idcart, :idproduct)", [
+		$sql->query("INSERT INTO tb_cartsproducts (idcart, idproduct) VALUES(:idcart, :idproduct)", [
 			':idcart'=>$this->getidcart(),
 			':idproduct'=>$product->getidproduct()
 		]);
-	
 
 		$this->getCalculateTotal();
-	
+
 	}
+
 
 	public function removeProduct(Product $product, $all = false)
 	{
@@ -135,19 +135,19 @@ class Cart extends Model {
 		if ($all) {
 
 			$sql->query("UPDATE tb_cartsproducts SET dtremoved = NOW() WHERE idcart = :idcart AND idproduct = :idproduct AND dtremoved IS NULL", [
-				'idcart'=>$this->getidcart(),
-				'idproduct'=>$product->getidproduct()
+				':idcart'=>$this->getidcart(),
+				':idproduct'=>$product->getidproduct()
 			]);
-		
+
 		} else {
 
-
 			$sql->query("UPDATE tb_cartsproducts SET dtremoved = NOW() WHERE idcart = :idcart AND idproduct = :idproduct AND dtremoved IS NULL LIMIT 1", [
-				'idcart'=>$this->getidcart(),
-				'idproduct'=>$product->getidproduct()
+				':idcart'=>$this->getidcart(),
+				':idproduct'=>$product->getidproduct()
 			]);
 
 		}
+
 		$this->getCalculateTotal();
 
 	}
@@ -300,21 +300,22 @@ class Cart extends Model {
 	public function getValues()
 	{
 
-	$this->getCalculateTotal();
+		$this->getCalculateTotal();
 
-	return parent::getValues();
+		return parent::getValues();
 
 	}
 
 	public function getCalculateTotal()
 	{
 
-	$this->updateFreight();
+		$this->updateFreight();
 
-	$totals = $this->getProductsTotals();
+		$totals = $this->getProductsTotals();
 
-	$this->setvlsubtotal($totals['vlprice']);
-	$this->setvltotal($totals['vlprice'] + $this->getvlfreight());
+		$this->setvlsubtotal($totals['vlprice']);
+		$this->setvltotal($totals['vlprice'] + (float)$this->getvlfreight());
+
 	}
 
 }		
