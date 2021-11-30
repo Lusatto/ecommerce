@@ -3,17 +3,46 @@
 use \Hcode\PageAdmin;
 use \Hcode\Model\User;
 
-
 $app->get("/admin/users", function(){
 
 	User::verifyLogin(); // verifica se o usuario esta logado
 
-	$users = User::listAll();
+	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
+	$page = (isset($_GET['page'])) ? (int)$_GET['page'] : 1;
 
+	if ($search != '') {
+
+		$pagination = User::getPageSearch($search, $page, 1);
+	
+	}else{
+
+		$pagination = User::getPage($page, 2);
+
+	}
+
+	
+
+	$pages = [];
+
+	for ($x = 0; $x < $pagination['pages']; $x++)
+	{
+
+		array_push($pages, [
+			'href'=>'/admin/users?'.http_build_query([
+				'page'=>$x+1,
+				'search'=>$search
+			]),
+			'text'=>$x+1
+		]);
+	
+	}
+	
 	$page = new PageAdmin();
 
 	$page->setTpl("users", array(
-		"users"=>$users
+		"users"=>$pagination['data'],
+		"search"=>$search,
+		"pages"=>$pages
 	));
 
 });
